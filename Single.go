@@ -45,7 +45,7 @@ func (service *Service) CheckEmail(cfg *CheckEmailConfig) (*CheckEmailResult, *e
 		return nil, errortools.ErrorMessage("CheckEmailConfig must not be nil")
 	}
 
-	var values url.Values
+	var values = url.Values{}
 
 	values.Set("email", cfg.Email)
 	if cfg.AddressInfo {
