@@ -18,6 +18,7 @@ type CheckEmailConfig struct {
 type CheckEmailResult struct {
 	Status              string   `json:"status"`
 	Result              string   `json:"result"`
+	Message             string   `json:"message"`
 	Flags               []string `json:"flags"`
 	SuggestedCorrection string   `json:"suggested_correction"`
 	AddressInfo         *struct {
@@ -69,6 +70,10 @@ func (service *Service) CheckEmail(cfg *CheckEmailConfig) (*CheckEmailResult, *e
 	_, _, e := service.httpRequest(&requestConfig)
 	if e != nil {
 		return nil, e
+	}
+
+	if result.Status != "success" {
+		return nil, errortools.ErrorMessagef("%s: %s", result.Status, result.Message)
 	}
 
 	return &result, nil
